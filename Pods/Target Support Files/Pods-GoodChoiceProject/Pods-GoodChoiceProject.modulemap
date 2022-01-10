@@ -1,0 +1,6 @@
+framework module Pods_GoodChoiceProject {
+  umbrella header "Pods-GoodChoiceProject-umbrella.h"
+
+  export *
+  module * { export * }
+}
