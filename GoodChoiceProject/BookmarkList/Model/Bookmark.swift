@@ -8,11 +8,15 @@
 import Foundation
 
 protocol Bookmark {
-    var imageUrlString: String? { get set }
+    var id: Int { get set }
     
     var title: String { get set }
     
+    var thumbnailImageUrl: URL? { get set }
+    
     var rate: Float { get set }
+    
+    var detail: PropertyDetail? { get set }
     
     var date: Date { get set }
 }

@@ -17,36 +17,55 @@ final class PropertyListViewController: UIViewController {
     
     private var viewModel: PropertyListViewModel = PropertyListViewModel()
     
+    private let disposeBag = DisposeBag()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        initializeTableView()
         
+        tableView.rowHeight = 100
         
-//        self.photoCollectionView.rx.didScroll
-//          .withLatestFrom(self.photoCollectionView.rx.contentOffset)
-//          .map { [weak self] in
-//            Reactor.Action.pagination(
-//              contentHeight: self?.photoCollectionView.contentSize.height ?? 0,
-//              contentOffsetY: $0.y,
-//              scrollViewHeight: UIScreen.main.bounds.height
-//            )
-//          }
-//          .bind(to: reactor.action)
-//          .disposed(by: disposeBag)
+        viewModel.properties.bind(to: tableView.rx.items(cellIdentifier: HotelPropertyListTableViewCell.Key, cellType: HotelPropertyListTableViewCell.self)) { (row, property, cell) in
+            switch property {
+            case let hotel as Hotel:
+                hotel.bind(cell)
+            default: break
+            }
+            
+        }.disposed(by: disposeBag)
+        
+        tableView.rx.willDisplayCell.observe(on: MainScheduler.instance).subscribe { event in
+            guard let current = self.viewModel.currentPage else { return }
+            let indexPath = event.element?.indexPath
+            if indexPath?.row == self.tableView.numberOfRows(inSection: 0) - 1 {
+                self.viewModel.fetchData(current + 1)
+            }
+        }.disposed(by: disposeBag)
+        viewModel.fetchData(viewModel.currentPage ?? 0)
+        
+        tableView.rx.modelSelected(Property.self).subscribe { property in
+            switch property.element {
+            case let hotel as Hotel:
+                let viewController = HotelDetailViewController(hotel)
+                self.navigationController?.pushViewController(viewController, animated: true)
+            default: break
+            }
+        }.disposed(by: disposeBag)
+    }
+    
+    private func initializeTableView() {
+        tableView.register(UINib(nibName: "HotelPropertyListTableViewCell", bundle: nil),
+                           forCellReuseIdentifier: HotelPropertyListTableViewCell.Key)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        let hotel = Hotel(id: 0, title: "hello world", thumbnailImageUrl: nil, rate: 5.0, detail: nil)
-        let detail = HotelDetailViewController(hotel)
-        
-        present(detail, animated: true, completion: nil)
     }
 }
 
 extension Hotel {
-    func bind(_ cell: PropertyListTableViewCell) {
+    func bind(_ cell: HotelPropertyListTableViewCell) {
         cell.lblTitle.text = title
         cell.lblRate.text = "\(rate)"
         

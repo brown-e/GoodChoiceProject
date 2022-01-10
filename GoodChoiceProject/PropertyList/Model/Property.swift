@@ -8,7 +8,7 @@
 import Foundation
 
 enum PropertyType: Int {
-case hotel
+    case hotel, motel
 }
 
 protocol Property {

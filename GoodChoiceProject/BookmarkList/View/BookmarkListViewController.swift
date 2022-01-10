@@ -16,26 +16,42 @@ final class BookmarkListViewController: UIViewController {
     
     private let disposeBag = DisposeBag()
     
-    private var viewModel: BookmarkListViewModel = BookmarkListViewModel()
+    private var viewModel: BookmarkListViewModel = BookmarkListViewModel([])
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         initializeSortButton()
         initializeTableView()
-        
-        viewModel.bookmarks.bind(to: tableView.rx.items(cellIdentifier: BookmarkTableViewCell.Key, cellType: BookmarkTableViewCell.self)) { (row, bookmark, cell) in
+        bind()
+    }
+    
+    private func bind() {
+        viewModel.bookmarks.bind(to: tableView.rx.items(cellIdentifier: HotelBookmarkTableViewCell.Key, cellType: HotelBookmarkTableViewCell.self)) { (row, bookmark, cell) in
             switch bookmark {
             case let bookmark as HotelBookmark:
-                break
-            default:
-                break
+                bookmark.bind(cell)
+            default: break
             }
             
         }.disposed(by: disposeBag)
+        
+        
+        tableView.rx.modelSelected(Bookmark.self)
+            .subscribe { bookmark in
+                switch bookmark.element {
+                case let hotelBookmark as HotelBookmark:
+                    guard let hotel = Hotel(hotelBookmark) else { return }
+
+                    let propertyDetailView  = HotelDetailViewController(hotel)
+                    self.navigationController?.pushViewController(propertyDetailView, animated: true)
+                default: break
+                }
+            }
+            .disposed(by: disposeBag)
     }
     
-    func initializeSortButton() {
+    private func initializeSortButton() {
         btnSort.rx.tap.bind { [unowned self] in
             let alertController = UIAlertController(title: "정렬", message: nil, preferredStyle: .actionSheet)
             alertController.addAction(UIAlertAction(title: "최근 등록 순 (오름차순)", style: .default, handler: { [unowned self] _ in
@@ -58,8 +74,8 @@ final class BookmarkListViewController: UIViewController {
         }.disposed(by: disposeBag)
     }
     
-    func initializeTableView() {
-        tableView.register(UINib(nibName: "BookmarkTableViewCell", bundle: nil), forCellReuseIdentifier: BookmarkTableViewCell.Key)
+    private func initializeTableView() {
+        tableView.register(UINib(nibName: "HotelBookmarkTableViewCell", bundle: nil), forCellReuseIdentifier: HotelBookmarkTableViewCell.Key)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,13 +84,13 @@ final class BookmarkListViewController: UIViewController {
 }
 
 extension HotelBookmark {
-    func bind(_ cell: BookmarkTableViewCell) {
+    func bind(_ cell: HotelBookmarkTableViewCell) {
         cell.lblTitle.text = title
         cell.lblRate.text = "\(rate)"
         
         cell.imgView.image = nil
-        if let imageUrlString = imageUrlString {
-//            cell.imgView.kf.setImage(with: thumbnailImageUrl)
+        if let thumbnailImageUrl = thumbnailImageUrl {
+            cell.imgView.kf.setImage(with: thumbnailImageUrl)
         }
     }
 }

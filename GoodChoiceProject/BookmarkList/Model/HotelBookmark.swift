@@ -8,9 +8,11 @@
 import Foundation
 
 struct HotelBookmark: Bookmark {
-    var id: Int = 0
+    var thumbnailImageUrl: URL?
     
-    var imageUrlString: String?
+    var detail: PropertyDetail?
+    
+    var id: Int = 0
     
     var title: String = ""
     

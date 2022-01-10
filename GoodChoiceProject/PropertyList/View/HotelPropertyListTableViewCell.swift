@@ -1,5 +1,5 @@
 //
-//  PropertyListTableViewCell.swift
+//  HotelPropertyListTableViewCell.swift
 //  GoodChoiceProject
 //
 //  Created by 김이은 on 2022/01/09.
@@ -7,7 +7,11 @@
 
 import UIKit
 
-final class PropertyListTableViewCell: UITableViewCell {
+extension HotelPropertyListTableViewCell {
+    static var Key: String = "HotelPropertyListTableViewCell"
+}
+
+final class HotelPropertyListTableViewCell: UITableViewCell {
 
     @IBOutlet var imgView: UIImageView!
     @IBOutlet var lblTitle: UILabel!
@@ -16,7 +20,6 @@ final class PropertyListTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

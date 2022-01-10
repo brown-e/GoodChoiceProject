@@ -9,4 +9,5 @@ import Foundation
 
 protocol Bookmarkable {
     var bookmark: Bookmark { get }
+    init?(_ bookmark: Bookmark)
 }
