@@ -11,31 +11,52 @@ import RxCocoa
 import Alamofire
 
 final class PropertyListViewModel {
-    var properties: BehaviorRelay<[Property]> = BehaviorRelay(value: [])
     
+    var properties: BehaviorRelay<[PropertyViewModel]> = BehaviorRelay(value: [])
     var isLoading: BehaviorRelay<Bool> = BehaviorRelay(value: false)
     
     var totalCount: Int?
     var currentPage: Int?
     
+    private let disposeBag = DisposeBag()
+    
+    init() {
+        BookmarkManager.shared.bookmarks.subscribe { [unowned self] bookmarks in
+            self.properties.accept(self.properties.value.map({ property in
+                let bookmarked = bookmarks.element?.contains(where: { $0.id == property.property.id }) ?? false
+                return PropertyViewModel(property: property.property, isBookmarked: bookmarked)
+            }))
+        }.disposed(by: disposeBag)
+    }
+    
     func fetchData(_ page: Int) {
-        if let totalCount = totalCount, totalCount / 20 > page + 1 { return }
         guard isLoading.value == false else { return }
         
+        if let totalCount = totalCount, totalCount/20 > page+1 { return }
+        
         isLoading.accept(true)
-        AF.request(URL(string: "https://www.gccompany.co.kr/App/json/\(page+1).json")!).responseDecodable(of: PropertyListAPIReturn.self) { [weak self] response in
-            self?.isLoading.accept(false)
-            
-            guard let list = response.value?.data.product else { return }
-            self?.totalCount = response.value?.data.totalCount
-            self?.currentPage = page
-            self?.properties.accept((self?.properties.value ?? []) + list.map { Hotel($0) })
-        }
+        AF.request(URL(string: "https://www.gccompany.co.kr/App/json/\(page+1).json")!)
+            .responseDecodable(of: PropertyListAPIReturn.self) { [weak self] response in
+                self?.isLoading.accept(false)
+                
+                guard let list = response.value?.data.product else { return }
+                self?.totalCount = response.value?.data.totalCount
+                self?.currentPage = page
+                
+                let bookmarks = (try? BookmarkManager.shared.bookmarks.value()) ?? []
+                self?.properties.accept((self?.properties.value ?? []) + list
+                                            .map { property in
+                    let bookmarked = bookmarks.contains(where: { bookmark in
+                        bookmark.id == property.id
+                    })
+                    return PropertyViewModel(property: Hotel(property),
+                                             isBookmarked: bookmarked) })
+            }
     }
 }
 
-struct PropertyListAPIReturn: Decodable {
-    
+// API 리턴 스펙 정의
+fileprivate struct PropertyListAPIReturn: Decodable {
     struct Data: Decodable {
         var totalCount: Int
         var product: [Property]
@@ -60,13 +81,15 @@ struct PropertyListAPIReturn: Decodable {
 }
 
 extension Hotel {
-    init(_ apiReturn: PropertyListAPIReturn.Property) {
+    fileprivate init(_ apiReturn: PropertyListAPIReturn.Property) {
         id = apiReturn.id
         title = apiReturn.name
         if let url = URL(string: apiReturn.thumbnail) {
             thumbnailImageUrl = url
         }
         rate = apiReturn.rate
-        detail = PropertyDetail(imageUrl: URL(string: apiReturn.description.imagePath), subject: apiReturn.description.subject, price: apiReturn.description.price)
+        imageUrl = URL(string: apiReturn.description.imagePath)
+        subject = apiReturn.description.subject
+        price = apiReturn.description.price
     }
 }

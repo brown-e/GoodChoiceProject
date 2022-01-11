@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 extension HotelBookmarkTableViewCell {
     static var Key: String = "HotelBookmarkTableViewCell"
@@ -19,7 +20,15 @@ final class HotelBookmarkTableViewCell: UITableViewCell {
     @IBOutlet var lblRateDate: UILabel!
     @IBOutlet var btnBookmark: UIButton!
     
+    var disposeBag = DisposeBag()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        disposeBag = DisposeBag()
     }
 }

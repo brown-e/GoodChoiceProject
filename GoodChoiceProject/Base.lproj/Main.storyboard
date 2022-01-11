@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="jhQ-TE-FnY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xJJ-sk-LBo">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Item-->
-        <scene sceneID="KrQ-yo-wBj">
+        <scene sceneID="HvL-Yo-itr">
             <objects>
-                <navigationController id="jhQ-TE-FnY" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="krG-U3-YVi"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="CUv-5U-cbp">
+                <navigationController id="x2k-b7-jQc" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="8wM-iY-0TA"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="eBr-gJ-5oR">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="xJJ-sk-LBo" kind="relationship" relationship="rootViewController" id="kGU-xQ-iYC"/>
+                        <segue destination="G4O-TX-3Kq" kind="relationship" relationship="rootViewController" id="Z9W-zk-XIy"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0F2-Nk-IjU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="g3y-ix-zLt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1575" y="-624"/>
+            <point key="canvasLocation" x="209" y="-731"/>
         </scene>
         <!--BookmarkList-->
         <scene sceneID="mIL-Mn-FwW">
             <objects>
-                <viewController id="G4O-TX-3Kq" userLabel="BookmarkList" customClass="BookmarkListViewController" customModule="GoodChoiceProject" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="즐겨찾기 리스트" id="G4O-TX-3Kq" userLabel="BookmarkList" customClass="BookmarkListViewController" customModule="GoodChoiceProject" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="29J-cm-0Tc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -38,37 +38,49 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="46U-zt-QYf">
-                                <rect key="frame" x="337" y="772" width="67" height="31"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="gray" title="Button"/>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="myB-pA-rde"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="myB-pA-rde" firstAttribute="trailing" secondItem="46U-zt-QYf" secondAttribute="trailing" constant="10" id="2Kc-X2-hwI"/>
                             <constraint firstItem="myB-pA-rde" firstAttribute="bottom" secondItem="3wY-lM-K8F" secondAttribute="bottom" id="EfQ-eP-kV0"/>
                             <constraint firstItem="3wY-lM-K8F" firstAttribute="top" secondItem="29J-cm-0Tc" secondAttribute="top" id="Wcc-Vx-6Sy"/>
-                            <constraint firstItem="myB-pA-rde" firstAttribute="bottom" secondItem="46U-zt-QYf" secondAttribute="bottom" constant="10" id="b9F-kz-lK6"/>
                             <constraint firstItem="myB-pA-rde" firstAttribute="trailing" secondItem="3wY-lM-K8F" secondAttribute="trailing" id="f5d-LA-540"/>
                             <constraint firstItem="3wY-lM-K8F" firstAttribute="leading" secondItem="29J-cm-0Tc" secondAttribute="leading" id="y7C-An-Zr8"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 2" id="IfT-hH-AFd"/>
+                    <tabBarItem key="tabBarItem" title="Bookmark" image="checkmark.seal" catalog="system" id="IfT-hH-AFd"/>
+                    <navigationItem key="navigationItem" title="북마크 리스트" id="qWs-nE-ohD">
+                        <barButtonItem key="rightBarButtonItem" title="정렬" id="rPc-dz-PyX"/>
+                    </navigationItem>
                     <connections>
-                        <outlet property="btnSort" destination="46U-zt-QYf" id="vMf-2G-8gW"/>
                         <outlet property="tableView" destination="3wY-lM-K8F" id="9Mr-aH-wJq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4X6-ca-Zfa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="149" y="-621"/>
+            <point key="canvasLocation" x="987" y="-731"/>
+        </scene>
+        <!--Item-->
+        <scene sceneID="haK-1F-hx0">
+            <objects>
+                <navigationController id="7dH-yK-9Ud" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="UFK-RY-RPQ"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="fet-Ij-GVB">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="uC0-ww-SKe" kind="relationship" relationship="rootViewController" id="L63-Qj-XAh"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KK1-IB-82Q" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="210" y="89"/>
         </scene>
         <!--PropertyList-->
         <scene sceneID="ole-ZG-VKg">
             <objects>
-                <viewController id="uC0-ww-SKe" userLabel="PropertyList" customClass="PropertyListViewController" customModule="GoodChoiceProject" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="전체 리스트" id="uC0-ww-SKe" userLabel="PropertyList" customClass="PropertyListViewController" customModule="GoodChoiceProject" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="x2R-qr-g64">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -87,14 +99,15 @@
                             <constraint firstItem="7zM-2A-PNG" firstAttribute="trailing" secondItem="R40-ya-NVP" secondAttribute="trailing" id="zhP-Jo-qCY"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 1" id="4Np-WG-ZlK"/>
+                    <tabBarItem key="tabBarItem" title="List" image="ellipsis.rectangle" catalog="system" id="4Np-WG-ZlK"/>
+                    <navigationItem key="navigationItem" title="전체 리스트" id="Cme-nX-X1K"/>
                     <connections>
                         <outlet property="tableView" destination="7zM-2A-PNG" id="9zL-3d-e1c"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FXw-Nb-OIh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="149" y="-1227"/>
+            <point key="canvasLocation" x="987" y="88"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="cxQ-k0-2Sb">
@@ -107,16 +120,18 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="uC0-ww-SKe" kind="relationship" relationship="viewControllers" id="jKv-CD-UEQ"/>
-                        <segue destination="G4O-TX-3Kq" kind="relationship" relationship="viewControllers" id="E33-GK-4PM"/>
+                        <segue destination="7dH-yK-9Ud" kind="relationship" relationship="viewControllers" id="spE-yi-sMI"/>
+                        <segue destination="x2k-b7-jQc" kind="relationship" relationship="viewControllers" id="MPt-Ao-m7W"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iTB-5f-jY1" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-723" y="-624"/>
+            <point key="canvasLocation" x="-814" y="-311"/>
         </scene>
     </scenes>
     <resources>
+        <image name="checkmark.seal" catalog="system" width="128" height="128"/>
+        <image name="ellipsis.rectangle" catalog="system" width="128" height="81"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

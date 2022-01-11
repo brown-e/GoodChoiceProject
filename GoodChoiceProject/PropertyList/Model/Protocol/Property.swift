@@ -20,13 +20,9 @@ protocol Property {
     
     var rate: Float { get set }
     
-    var detail: PropertyDetail? { get set }
-}
-
-struct PropertyDetail {
-    var imageUrl: URL?
+    var imageUrl: URL? { get set }
     
-    var subject: String
+    var subject: String { get set }
     
-    var price: Int
+    var price: Int { get set }
 }

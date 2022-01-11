@@ -16,5 +16,9 @@ struct Hotel: Property {
     
     var rate: Float = 0
     
-    var detail: PropertyDetail?
+    var imageUrl: URL?
+    
+    var subject: String
+    
+    var price: Int
 }

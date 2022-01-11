@@ -18,21 +18,23 @@ final class BookmarkListViewModel {
     var bookmarks: BehaviorSubject<[Bookmark]> = BehaviorSubject(value: [])
     var sortType: BookmarkSortType = .dateAscending
 
+    var obSortType: BehaviorRelay<BookmarkSortType> = BehaviorRelay(value: .dateAscending)
+    
     private let disposeBag = DisposeBag()
     
     func sortByDate(_ descendingOrder: Bool) {
-        bookmarks.onNext([])
+        obSortType.accept(descendingOrder ? .dateDescending : .dateAscending)
     }
     
     func sortByRate(_ descendingOrder: Bool) {
-        bookmarks.onNext([])
+        obSortType.accept(descendingOrder ? .rateDescending : .rateAscending)
     }
     
     init(_ bookmarks: [Bookmark]) {
 
         BookmarkManager.shared.bookmarks
             .map({
-                switch self.sortType {
+                switch self.obSortType.value {
                 case .dateAscending:
                     return $0.sorted { $0.date > $1.date }
                 case .dateDescending:
@@ -45,6 +47,22 @@ final class BookmarkListViewModel {
             })
             .bind(to: self.bookmarks)
             .disposed(by: disposeBag)
+        
+        obSortType.bind { type in
+            var bookmarks = (try? self.bookmarks.value()) ?? []
+            switch type {
+            case .dateAscending:
+                bookmarks.sort { $0.date > $1.date }
+            case .dateDescending:
+                bookmarks.sort { $0.date < $1.date }
+            case .rateAscending:
+                bookmarks.sort { $0.rate < $1.rate }
+            case .rateDescending:
+                bookmarks.sort { $0.rate > $1.rate }
+            }
+
+            self.bookmarks.onNext(bookmarks)
+        }.disposed(by: disposeBag)
     }
 }
 

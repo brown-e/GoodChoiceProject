@@ -39,11 +39,11 @@ final class HotelDetailViewController: UIViewController {
     
     private func initializeView() {
         lblTitle.text = hotel.title
-        lblPrice.text = "\(hotel.detail?.price ?? 0)"
-        lblDescription.text = hotel.detail?.subject ?? ""
+        lblPrice.text = "\(hotel.price)"
+        lblDescription.text = hotel.subject
         lblRate.text = "\(hotel.rate)"
         
-        if let imageUrl = hotel.detail?.imageUrl {
+        if let imageUrl = hotel.imageUrl {
             imageView.kf.setImage(with: imageUrl)
         }
     }

@@ -55,7 +55,6 @@ struct BookmarkObject: Codable {
     
     var rate: Float
 
-    //
     var imageUrlString: String?
     
     var subject: String
@@ -70,39 +69,19 @@ extension Property {
         case .hotel:
             return Hotel(id: bookmarkObject.id,
                          title: bookmarkObject.title,
-                         thumbnailImageUrl: bookmarkObject.thumbnailImageUrlString == nil ? URL(string: bookmarkObject.thumbnailImageUrlString!) : nil,
+                         thumbnailImageUrl: URL(string: bookmarkObject.thumbnailImageUrlString),
                          rate: bookmarkObject.rate,
-                         detail: PropertyDetail(imageUrl: bookmarkObject.imageUrlString == nil ? URL(string: bookmarkObject.imageUrlString!) : nil,
-                                                subject: bookmarkObject.subject,
-                                                price: bookmarkObject.price))
+                         imageUrl: URL(string: bookmarkObject.imageUrlString),
+                         subject: bookmarkObject.subject,
+                         price: bookmarkObject.price)
         default:
             return Hotel(id: bookmarkObject.id,
                          title: bookmarkObject.title,
-                         thumbnailImageUrl: bookmarkObject.thumbnailImageUrlString == nil ? URL(string: bookmarkObject.thumbnailImageUrlString!) : nil,
+                         thumbnailImageUrl: URL(string: bookmarkObject.thumbnailImageUrlString),
                          rate: bookmarkObject.rate,
-                         detail: PropertyDetail(imageUrl: bookmarkObject.imageUrlString == nil ? URL(string: bookmarkObject.imageUrlString!) : nil,
-                                                subject: bookmarkObject.subject,
-                                                price: bookmarkObject.price))
+                         imageUrl: URL(string: bookmarkObject.imageUrlString),
+                         subject: bookmarkObject.subject,
+                         price: bookmarkObject.price)
         }
-    }
-}
-
-extension Hotel: Bookmarkable {
-    var bookmark: Bookmark {
-        return HotelBookmark(thumbnailImageUrl: thumbnailImageUrl,
-                             detail: detail,
-                             id: id,
-                             title: title,
-                             rate: rate,
-                             date: Date())
-    }
-    
-    init?(_ bookmark: Bookmark) {
-        guard let bookmark = bookmark as? HotelBookmark else { return nil }
-        
-        self.thumbnailImageUrl = bookmark.thumbnailImageUrl
-        self.id = bookmark.id
-        self.detail = bookmark.detail
-        self.rate = bookmark.rate
     }
 }

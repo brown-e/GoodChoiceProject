@@ -16,7 +16,11 @@ protocol Bookmark {
     
     var rate: Float { get set }
     
-    var detail: PropertyDetail? { get set }
+    var imageUrl: URL? { get set }
+    
+    var subject: String { get set }
+    
+    var price: Int { get set }
     
     var date: Date { get set }
 }

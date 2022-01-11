@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 extension HotelPropertyListTableViewCell {
     static var Key: String = "HotelPropertyListTableViewCell"
@@ -18,14 +19,15 @@ final class HotelPropertyListTableViewCell: UITableViewCell {
     @IBOutlet var lblRate: UILabel!
     @IBOutlet var btnBookmark: UIButton!
     
+    var disposeBag = DisposeBag()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        disposeBag = DisposeBag()
     }
-    
 }

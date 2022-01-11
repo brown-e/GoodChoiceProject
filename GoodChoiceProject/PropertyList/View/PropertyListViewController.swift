@@ -12,9 +12,10 @@ import Alamofire
 import Kingfisher
 
 final class PropertyListViewController: UIViewController {
-
+    // View
     @IBOutlet var tableView: UITableView!
     
+    // View model
     private var viewModel: PropertyListViewModel = PropertyListViewModel()
     
     private let disposeBag = DisposeBag()
@@ -22,19 +23,34 @@ final class PropertyListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // 테이블 뷰 초기화
         initializeTableView()
         
-        tableView.rowHeight = 100
+        // 뷰모델 바인딩
+        bind()
         
+        // 첫번째 페이지 API 호출
+        viewModel.fetchData(viewModel.currentPage ?? 0)
+    }
+    
+    private func bind() {
         viewModel.properties.bind(to: tableView.rx.items(cellIdentifier: HotelPropertyListTableViewCell.Key, cellType: HotelPropertyListTableViewCell.self)) { (row, property, cell) in
-            switch property {
+            switch property.property {
             case let hotel as Hotel:
                 hotel.bind(cell)
             default: break
             }
             
+            if let bookmark = property.property as? Bookmarkable {
+                cell.btnBookmark.rx.tap.subscribe({ _ in
+                    try? BookmarkManager.shared.save(bookmark.bookmark)
+                }).disposed(by: cell.disposeBag)
+            }
+            
+            cell.btnBookmark.isSelected = property.isBookmarked
+
         }.disposed(by: disposeBag)
-        
+    
         tableView.rx.willDisplayCell.observe(on: MainScheduler.instance).subscribe { event in
             guard let current = self.viewModel.currentPage else { return }
             let indexPath = event.element?.indexPath
@@ -42,10 +58,9 @@ final class PropertyListViewController: UIViewController {
                 self.viewModel.fetchData(current + 1)
             }
         }.disposed(by: disposeBag)
-        viewModel.fetchData(viewModel.currentPage ?? 0)
         
-        tableView.rx.modelSelected(Property.self).subscribe { property in
-            switch property.element {
+        tableView.rx.modelSelected(PropertyViewModel.self).subscribe { property in
+            switch property.element?.property {
             case let hotel as Hotel:
                 let viewController = HotelDetailViewController(hotel)
                 self.navigationController?.pushViewController(viewController, animated: true)
@@ -55,6 +70,7 @@ final class PropertyListViewController: UIViewController {
     }
     
     private func initializeTableView() {
+        tableView.rowHeight = 100
         tableView.register(UINib(nibName: "HotelPropertyListTableViewCell", bundle: nil),
                            forCellReuseIdentifier: HotelPropertyListTableViewCell.Key)
     }
