@@ -1,5 +1,5 @@
 //
-//  PropertyListViewController.swift
+//  AccommodationListViewController.swift
 //  GoodChoiceProject
 //
 //  Created by 김이은 on 2022/01/08.
@@ -11,11 +11,10 @@ import RxCocoa
 import Alamofire
 import Kingfisher
 
-final class PropertyListViewController: UIViewController {
-    // View
+final class AccommodationListViewController: UIViewController {
+    
     @IBOutlet var tableView: UITableView!
     
-    // View model
     private var viewModel: PropertyListViewModel = PropertyListViewModel()
     
     private let disposeBag = DisposeBag()
@@ -23,10 +22,8 @@ final class PropertyListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // 테이블 뷰 초기화
         initializeTableView()
         
-        // 뷰모델 바인딩
         bind()
         
         // 첫번째 페이지 API 호출
@@ -34,7 +31,9 @@ final class PropertyListViewController: UIViewController {
     }
     
     private func bind() {
-        viewModel.properties.bind(to: tableView.rx.items(cellIdentifier: HotelPropertyListTableViewCell.Key, cellType: HotelPropertyListTableViewCell.self)) { (row, property, cell) in
+
+        viewModel.properties.bind(to: tableView.rx.items(cellIdentifier: HotelPropertyListTableViewCell.Key,
+                                                         cellType: HotelPropertyListTableViewCell.self)) { (row, property, cell) in
             switch property.property {
             case let hotel as Hotel:
                 hotel.bind(cell)
@@ -42,25 +41,29 @@ final class PropertyListViewController: UIViewController {
             }
             
             if let bookmark = property.property as? Bookmarkable {
-                cell.btnBookmark.rx.tap.subscribe({ _ in
-                    try? BookmarkManager.shared.save(bookmark.bookmark)
-                }).disposed(by: cell.disposeBag)
+                cell.btnBookmark.rx.tap.bind {
+                    if property.isBookmarked {
+                        try? BookmarkManager.shared.delete(bookmark.bookmark.id)
+                    } else {
+                        try? BookmarkManager.shared.save(bookmark.bookmark)
+                    }
+                }.disposed(by: cell.disposeBag)
             }
             
             cell.btnBookmark.isSelected = property.isBookmarked
-
+            
         }.disposed(by: disposeBag)
-    
-        tableView.rx.willDisplayCell.observe(on: MainScheduler.instance).subscribe { event in
+        
+        tableView.rx.willDisplayCell.observe(on: MainScheduler.instance).bind {
             guard let current = self.viewModel.currentPage else { return }
-            let indexPath = event.element?.indexPath
-            if indexPath?.row == self.tableView.numberOfRows(inSection: 0) - 1 {
+            let indexPath = $0.indexPath
+            if indexPath.row == self.tableView.numberOfRows(inSection: 0) - 1 {
                 self.viewModel.fetchData(current + 1)
             }
         }.disposed(by: disposeBag)
         
-        tableView.rx.modelSelected(PropertyViewModel.self).subscribe { property in
-            switch property.element?.property {
+        tableView.rx.modelSelected(PropertyViewModel.self).bind {
+            switch $0.property {
             case let hotel as Hotel:
                 let viewController = HotelDetailViewController(hotel)
                 self.navigationController?.pushViewController(viewController, animated: true)
@@ -73,10 +76,6 @@ final class PropertyListViewController: UIViewController {
         tableView.rowHeight = 100
         tableView.register(UINib(nibName: "HotelPropertyListTableViewCell", bundle: nil),
                            forCellReuseIdentifier: HotelPropertyListTableViewCell.Key)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
     }
 }
 

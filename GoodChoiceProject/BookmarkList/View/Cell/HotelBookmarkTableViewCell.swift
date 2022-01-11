@@ -24,6 +24,9 @@ final class HotelBookmarkTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        imgView.layer.borderColor = UIColor.lightGray.cgColor
+        imgView.layer.borderWidth = 1
     }
     
     override func prepareForReuse() {

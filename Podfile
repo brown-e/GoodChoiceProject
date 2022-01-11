@@ -10,7 +10,8 @@ target 'GoodChoiceProject' do
     pod 'RxCocoa', '6.2.0'
     pod 'Alamofire', '~> 5.5'
     pod 'Kingfisher', '~> 7.0'
-
+    pod 'RealmSwift'
+    
   target 'GoodChoiceProjectTests' do
     inherit! :search_paths
     # Pods for testing

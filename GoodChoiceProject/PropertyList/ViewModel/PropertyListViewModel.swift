@@ -21,9 +21,13 @@ final class PropertyListViewModel {
     private let disposeBag = DisposeBag()
     
     init() {
-        BookmarkManager.shared.bookmarks.subscribe { [unowned self] bookmarks in
+        bind()
+    }
+    
+    private func bind() {
+        BookmarkManager.shared.bookmarks.bind { [unowned self] bookmarks in
             self.properties.accept(self.properties.value.map({ property in
-                let bookmarked = bookmarks.element?.contains(where: { $0.id == property.property.id }) ?? false
+                let bookmarked = bookmarks.contains(where: { $0.id == property.property.id })
                 return PropertyViewModel(property: property.property, isBookmarked: bookmarked)
             }))
         }.disposed(by: disposeBag)
@@ -84,10 +88,8 @@ extension Hotel {
     fileprivate init(_ apiReturn: PropertyListAPIReturn.Property) {
         id = apiReturn.id
         title = apiReturn.name
-        if let url = URL(string: apiReturn.thumbnail) {
-            thumbnailImageUrl = url
-        }
         rate = apiReturn.rate
+        thumbnailImageUrl = URL(string: apiReturn.thumbnail)
         imageUrl = URL(string: apiReturn.description.imagePath)
         subject = apiReturn.description.subject
         price = apiReturn.description.price

@@ -8,6 +8,6 @@
 import Foundation
 
 struct PropertyViewModel {
-    var property: Property
+    var property: Accommodation
     var isBookmarked: Bool
 }

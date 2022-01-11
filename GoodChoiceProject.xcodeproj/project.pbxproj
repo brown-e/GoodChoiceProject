@@ -21,9 +21,9 @@
 		5E29A032278BB10B0063021A /* HotelDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E29A019278BB10B0063021A /* HotelDetailViewController.swift */; };
 		5E29A033278BB10B0063021A /* HotelDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5E29A01A278BB10B0063021A /* HotelDetailViewController.xib */; };
 		5E29A034278BB10B0063021A /* PropertyListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E29A01D278BB10B0063021A /* PropertyListViewModel.swift */; };
-		5E29A035278BB10B0063021A /* Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E29A01F278BB10B0063021A /* Property.swift */; };
+		5E29A035278BB10B0063021A /* Accommodation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E29A01F278BB10B0063021A /* Accommodation.swift */; };
 		5E29A036278BB10B0063021A /* Hotel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E29A020278BB10B0063021A /* Hotel.swift */; };
-		5E29A037278BB10B0063021A /* PropertyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E29A022278BB10B0063021A /* PropertyListViewController.swift */; };
+		5E29A037278BB10B0063021A /* AccommodationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E29A022278BB10B0063021A /* AccommodationListViewController.swift */; };
 		5E29A038278BB10B0063021A /* HotelPropertyListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E29A023278BB10B0063021A /* HotelPropertyListTableViewCell.swift */; };
 		5E29A039278BB10B0063021A /* HotelPropertyListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5E29A024278BB10B0063021A /* HotelPropertyListTableViewCell.xib */; };
 		5E29A03B278BB10B0063021A /* BookmarkListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E29A028278BB10B0063021A /* BookmarkListViewModel.swift */; };
@@ -77,9 +77,9 @@
 		5E29A019278BB10B0063021A /* HotelDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotelDetailViewController.swift; sourceTree = "<group>"; };
 		5E29A01A278BB10B0063021A /* HotelDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HotelDetailViewController.xib; sourceTree = "<group>"; };
 		5E29A01D278BB10B0063021A /* PropertyListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyListViewModel.swift; sourceTree = "<group>"; };
-		5E29A01F278BB10B0063021A /* Property.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Property.swift; sourceTree = "<group>"; };
+		5E29A01F278BB10B0063021A /* Accommodation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Accommodation.swift; sourceTree = "<group>"; };
 		5E29A020278BB10B0063021A /* Hotel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hotel.swift; sourceTree = "<group>"; };
-		5E29A022278BB10B0063021A /* PropertyListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyListViewController.swift; sourceTree = "<group>"; };
+		5E29A022278BB10B0063021A /* AccommodationListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccommodationListViewController.swift; sourceTree = "<group>"; };
 		5E29A023278BB10B0063021A /* HotelPropertyListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotelPropertyListTableViewCell.swift; sourceTree = "<group>"; };
 		5E29A024278BB10B0063021A /* HotelPropertyListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HotelPropertyListTableViewCell.xib; sourceTree = "<group>"; };
 		5E29A028278BB10B0063021A /* BookmarkListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkListViewModel.swift; sourceTree = "<group>"; };
@@ -263,7 +263,7 @@
 		5E29A021278BB10B0063021A /* View */ = {
 			isa = PBXGroup;
 			children = (
-				5E29A022278BB10B0063021A /* PropertyListViewController.swift */,
+				5E29A022278BB10B0063021A /* AccommodationListViewController.swift */,
 				5E89FF49278D43F500E02D4E /* Cell */,
 			);
 			path = View;
@@ -308,7 +308,7 @@
 		5E89FF46278D43B900E02D4E /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				5E29A01F278BB10B0063021A /* Property.swift */,
+				5E29A01F278BB10B0063021A /* Accommodation.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -617,7 +617,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5E29A037278BB10B0063021A /* PropertyListViewController.swift in Sources */,
+				5E29A037278BB10B0063021A /* AccommodationListViewController.swift in Sources */,
 				5E29A032278BB10B0063021A /* HotelDetailViewController.swift in Sources */,
 				5E89FF50278D6A9300E02D4E /* Hotel+Bookmarkable.swift in Sources */,
 				5E299FE1278BAE760063021A /* AppDelegate.swift in Sources */,
@@ -629,7 +629,7 @@
 				5E29A031278BB10B0063021A /* BookmarkManager.swift in Sources */,
 				5E29A034278BB10B0063021A /* PropertyListViewModel.swift in Sources */,
 				5E299FE3278BAE760063021A /* SceneDelegate.swift in Sources */,
-				5E29A035278BB10B0063021A /* Property.swift in Sources */,
+				5E29A035278BB10B0063021A /* Accommodation.swift in Sources */,
 				5E89FF52278D6B1000E02D4E /* URL+Util.swift in Sources */,
 				5E29A030278BB10B0063021A /* Bookmarkable.swift in Sources */,
 				5E29A038278BB10B0063021A /* HotelPropertyListTableViewCell.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  Property.swift
+//  Accommodation.swift
 //  GoodChoiceProject
 //
 //  Created by 김이은 on 2022/01/08.
@@ -11,7 +11,7 @@ enum PropertyType: Int {
     case hotel, motel
 }
 
-protocol Property {
+protocol Accommodation {
     var id: Int { get set }
     
     var title: String { get set }

@@ -8,6 +8,8 @@
 import Foundation
 
 protocol Bookmark {
+    var type: PropertyType { get set }
+    
     var id: Int { get set }
     
     var title: String { get set }

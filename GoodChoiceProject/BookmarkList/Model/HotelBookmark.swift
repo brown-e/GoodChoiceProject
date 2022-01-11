@@ -8,6 +8,8 @@
 import Foundation
 
 struct HotelBookmark: Bookmark {
+    var type: PropertyType = .hotel
+    
     var imageUrl: URL?
     
     var subject: String

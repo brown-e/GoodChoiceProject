@@ -62,7 +62,7 @@ final class BookmarkListViewController: UIViewController {
             alertController.addAction(UIAlertAction(title: "최근 등록 순 (오름차순)", style: .default, handler: { [unowned self] _ in
                 self.viewModel.sortByDate(true)
             }))
-            
+
             alertController.addAction(UIAlertAction(title: "최근 등록 순 (내림차순)", style: .default, handler: { [unowned self] _ in
                 self.viewModel.sortByDate(false)
             }))
@@ -82,10 +82,6 @@ final class BookmarkListViewController: UIViewController {
     private func initializeTableView() {
         tableView.rowHeight = 100
         tableView.register(UINib(nibName: "HotelBookmarkTableViewCell", bundle: nil), forCellReuseIdentifier: HotelBookmarkTableViewCell.Key)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
     }
 }
 

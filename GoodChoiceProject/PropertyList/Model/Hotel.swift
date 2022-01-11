@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Hotel: Property {
+struct Hotel: Accommodation {
     var id: Int
     
     var title: String = ""
