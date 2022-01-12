@@ -8,12 +8,12 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import Alamofire
 import Kingfisher
 
 final class AccommodationListViewController: UIViewController {
     
     @IBOutlet var tableView: UITableView!
+    @IBOutlet var loadingView: UIActivityIndicatorView!
     
     private var viewModel: PropertyListViewModel = PropertyListViewModel()
     
@@ -27,7 +27,7 @@ final class AccommodationListViewController: UIViewController {
         bind()
         
         // 첫번째 페이지 API 호출
-        viewModel.fetchData(viewModel.currentPage ?? 0)
+        viewModel.fetchData(viewModel.currentPage ?? 1)
     }
     
     private func bind() {
@@ -54,12 +54,21 @@ final class AccommodationListViewController: UIViewController {
             
         }.disposed(by: disposeBag)
         
+        viewModel.isLoading.bind(to: loadingView.rx.isAnimating).disposed(by: disposeBag)
+        
         tableView.rx.willDisplayCell.observe(on: MainScheduler.instance).bind {
             guard let current = self.viewModel.currentPage else { return }
             let indexPath = $0.indexPath
             if indexPath.row == self.tableView.numberOfRows(inSection: 0) - 1 {
-                self.viewModel.fetchData(current + 1)
+                self.viewModel.fetchData(current+1)
             }
+        }.disposed(by: disposeBag)
+        
+        tableView.rx.didEndDragging.filter({ $0 == true }).bind { [unowned self] _ in
+            guard self.tableView.contentOffset.y > self.tableView.contentSize.height - self.tableView.frame.height else { return }
+            guard let current = self.viewModel.currentPage else { return }
+            
+            self.viewModel.fetchData(current+1)
         }.disposed(by: disposeBag)
         
         tableView.rx.modelSelected(PropertyViewModel.self).bind {

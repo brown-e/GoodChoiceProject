@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xJJ-sk-LBo">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xJJ-sk-LBo">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -29,11 +31,11 @@
             <objects>
                 <viewController title="즐겨찾기 리스트" id="G4O-TX-3Kq" userLabel="BookmarkList" customClass="BookmarkListViewController" customModule="GoodChoiceProject" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="29J-cm-0Tc">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="3wY-lM-K8F">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                         </subviews>
@@ -80,18 +82,23 @@
             <objects>
                 <viewController title="전체 리스트" id="uC0-ww-SKe" userLabel="PropertyList" customClass="AccommodationListViewController" customModule="GoodChoiceProject" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="x2R-qr-g64">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="7zM-2A-PNG">
-                                <rect key="frame" x="0.0" y="44" width="600" height="507"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="mGy-ZS-C4A">
+                                <rect key="frame" x="188.5" y="432" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="R40-ya-NVP"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="mGy-ZS-C4A" firstAttribute="centerY" secondItem="R40-ya-NVP" secondAttribute="centerY" id="J9i-cS-YJW"/>
                             <constraint firstItem="7zM-2A-PNG" firstAttribute="top" secondItem="R40-ya-NVP" secondAttribute="top" id="ZU6-QK-A74"/>
+                            <constraint firstItem="mGy-ZS-C4A" firstAttribute="centerX" secondItem="R40-ya-NVP" secondAttribute="centerX" id="jms-WO-ePp"/>
                             <constraint firstItem="7zM-2A-PNG" firstAttribute="leading" secondItem="R40-ya-NVP" secondAttribute="leading" id="oUe-JS-rpZ"/>
                             <constraint firstItem="R40-ya-NVP" firstAttribute="bottom" secondItem="7zM-2A-PNG" secondAttribute="bottom" id="txx-bm-mkD"/>
                             <constraint firstItem="7zM-2A-PNG" firstAttribute="trailing" secondItem="R40-ya-NVP" secondAttribute="trailing" id="zhP-Jo-qCY"/>
@@ -100,6 +107,7 @@
                     <tabBarItem key="tabBarItem" title="List" image="ellipsis.rectangle" catalog="system" id="4Np-WG-ZlK"/>
                     <navigationItem key="navigationItem" title="전체 리스트" id="Cme-nX-X1K"/>
                     <connections>
+                        <outlet property="loadingView" destination="mGy-ZS-C4A" id="54L-KF-xf0"/>
                         <outlet property="tableView" destination="7zM-2A-PNG" id="9zL-3d-e1c"/>
                     </connections>
                 </viewController>

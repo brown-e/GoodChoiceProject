@@ -18,10 +18,10 @@ final class HotelDetailViewController: UIViewController {
     @IBOutlet var lblDescription: UILabel!
     @IBOutlet var lblPrice: UILabel!
     @IBOutlet var lblRate: UILabel!
-    @IBOutlet var btnToggle: UIButton!
+    @IBOutlet var btnBookmark: UIButton!
     
-    // model
-    private let hotel: Hotel
+    // View Model
+    var hotelDetailViewModel: HotelDetailViewModel
     
     private let disposeBag = DisposeBag()
     
@@ -33,37 +33,81 @@ final class HotelDetailViewController: UIViewController {
     }
     
     init(_ hotel: Hotel) {
-        self.hotel = hotel
+        hotelDetailViewModel = HotelDetailViewModel(hotel)
+        
         super.init(nibName: nil, bundle: nil)
     }
     
     private func initializeView() {
-        lblTitle.text = hotel.title
-        lblPrice.text = "\(hotel.price)"
-        lblDescription.text = hotel.subject
-        lblRate.text = "\(hotel.rate)"
         
-        if let imageUrl = hotel.imageUrl {
+        lblPrice.text = hotelDetailViewModel.priceText
+        lblDescription.text = hotelDetailViewModel.descriptionText
+        lblRate.text = hotelDetailViewModel.rateString
+        lblTitle.text = hotelDetailViewModel.title
+        
+        if let imageUrl = hotelDetailViewModel.imageUrl {
             imageView.kf.setImage(with: imageUrl)
         }
     }
     
     private func bind() {
-        btnToggle.rx.tap.subscribe { [hotel] event in
-            if self.btnToggle.isSelected {
+        
+        btnBookmark.rx.tap
+            .bind(to: hotelDetailViewModel.bookmarkButtonTap)
+            .disposed(by: disposeBag)
+        
+        hotelDetailViewModel.isBookmarked
+            .bind(to: btnBookmark.rx.isSelected)
+            .disposed(by: disposeBag)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+struct HotelDetailViewModel {
+    
+    var bookmarkButtonTap: PublishRelay<Void> = PublishRelay()
+    var isBookmarked: BehaviorRelay<Bool> = BehaviorRelay(value: false)
+    
+    private let disposeBag = DisposeBag()
+    private let hotel: Hotel
+    
+    var imageUrl: URL? {
+        return hotel.imageUrl
+    }
+    
+    var title: String {
+        return hotel.title
+    }
+    
+    var rateString: String {
+        return "\(hotel.rate)"
+    }
+    
+    var descriptionText: String {
+        return hotel.subject
+    }
+    
+    var priceText: String {
+        return "\(hotel.price)"
+    }
+    
+    init(_ hotel: Hotel) {
+        self.hotel = hotel
+        
+        BookmarkManager.shared.bookmarks
+            .map { $0.contains { $0.id == hotel.id } }
+            .bind(to: isBookmarked)
+            .disposed(by: disposeBag)
+        
+        bookmarkButtonTap.bind { [self] _ in
+            if self.isBookmarked.value {
                 try? BookmarkManager.shared.delete(hotel.id)
             } else {
                 try? BookmarkManager.shared.save(hotel.bookmark)
             }
         }.disposed(by: disposeBag)
-        
-        BookmarkManager.shared.bookmarks.map { $0.filter { $0.id == self.hotel.id } }.subscribe { event in
-            guard let element = event.element else { return }
-            self.btnToggle.isSelected = !element.isEmpty
-        }.disposed(by: disposeBag)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

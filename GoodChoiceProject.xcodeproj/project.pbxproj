@@ -165,7 +165,6 @@
 		5E299FDF278BAE760063021A /* GoodChoiceProject */ = {
 			isa = PBXGroup;
 			children = (
-				5E89FF4E278D6A7300E02D4E /* Common */,
 				5E29A01B278BB10B0063021A /* PropertyList */,
 				5E29A026278BB10B0063021A /* BookmarkList */,
 				5E29A015278BB10B0063021A /* PropertyDetail */,
@@ -200,6 +199,7 @@
 		5E29A010278BB10B0063021A /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				5E89FF51278D6B1000E02D4E /* URL+Util.swift */,
 				5E29A011278BB10B0063021A /* Bookmark */,
 			);
 			path = Util;
@@ -337,14 +337,6 @@
 				5E29A024278BB10B0063021A /* HotelPropertyListTableViewCell.xib */,
 			);
 			path = Cell;
-			sourceTree = "<group>";
-		};
-		5E89FF4E278D6A7300E02D4E /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				5E89FF51278D6B1000E02D4E /* URL+Util.swift */,
-			);
-			path = Common;
 			sourceTree = "<group>";
 		};
 		DA88E8DD6FC767C1689A49A1 /* Frameworks */ = {

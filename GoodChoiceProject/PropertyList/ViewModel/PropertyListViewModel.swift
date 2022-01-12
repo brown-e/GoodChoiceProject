@@ -16,7 +16,11 @@ final class PropertyListViewModel {
     var isLoading: BehaviorRelay<Bool> = BehaviorRelay(value: false)
     
     var totalCount: Int?
-    var currentPage: Int?
+    var currentPage: Int? {
+        let count = properties.value.count
+        if count == 0 { return nil }
+        return count / 20
+    }
     
     private let disposeBag = DisposeBag()
     
@@ -36,17 +40,20 @@ final class PropertyListViewModel {
     func fetchData(_ page: Int) {
         guard isLoading.value == false else { return }
         
-        if let totalCount = totalCount, totalCount/20 > page+1 { return }
+        if let totalCount = totalCount, totalCount <= self.properties.value.count {
+            return
+        }
         
         isLoading.accept(true)
-        AF.request(URL(string: "https://www.gccompany.co.kr/App/json/\(page+1).json")!)
+        print("requested" + "https://www.gccompany.co.kr/App/json/\(page).json")
+        
+        AF.request(URL(string: "https://www.gccompany.co.kr/App/json/\(page).json")!)
             .responseDecodable(of: PropertyListAPIReturn.self) { [weak self] response in
                 self?.isLoading.accept(false)
                 
                 guard let list = response.value?.data.product else { return }
                 self?.totalCount = response.value?.data.totalCount
-                self?.currentPage = page
-                
+
                 let bookmarks = (try? BookmarkManager.shared.bookmarks.value()) ?? []
                 self?.properties.accept((self?.properties.value ?? []) + list
                                             .map { property in

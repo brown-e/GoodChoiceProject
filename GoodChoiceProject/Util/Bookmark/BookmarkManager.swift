@@ -13,13 +13,13 @@ import RealmSwift
 final class BookmarkManager {
     static var shared: BookmarkManager = BookmarkManager()
     
+    // Model
     var bookmarks: BehaviorSubject<[Bookmark]>
     
     var realm = try! Realm(configuration: .defaultConfiguration)
     
-    let notificationToken: NotificationToken
-    private var tempBookmark: [Bookmark] = []
-    
+    private let notificationToken: NotificationToken
+
     private init() {
         
         let bookmarksObjects = realm.objects(BookmarkObject.self)

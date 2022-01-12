@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HotelDetailViewController" customModule="GoodChoiceProject" customModuleProvider="target">
             <connections>
-                <outlet property="btnToggle" destination="a7Z-as-c7r" id="rDO-oI-x8i"/>
+                <outlet property="btnBookmark" destination="a7Z-as-c7r" id="SFu-rt-HSp"/>
                 <outlet property="imageView" destination="xsh-PW-zeT" id="EfS-iv-ebT"/>
                 <outlet property="lblDescription" destination="ISG-ic-VyB" id="vYY-SF-lAl"/>
                 <outlet property="lblPrice" destination="NUO-U3-g76" id="Dmm-UL-J2Y"/>

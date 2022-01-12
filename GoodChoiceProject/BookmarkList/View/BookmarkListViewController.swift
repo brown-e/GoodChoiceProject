@@ -11,37 +11,61 @@ import RxCocoa
 import Kingfisher
 
 final class BookmarkListViewController: UIViewController {
+    
+    // View
     @IBOutlet var tableView: UITableView!
-    @IBOutlet var btnSort: UIButton!
+
+    // ViewModel
+    private var viewModel: BookmarkListViewModel = BookmarkListViewModel()
     
     private let disposeBag = DisposeBag()
-    
-    private var viewModel: BookmarkListViewModel = BookmarkListViewModel([])
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        initializeSortButton()
         initializeTableView()
         bind()
     }
     
     private func bind() {
-        viewModel.bookmarks
-            .bind(to: tableView.rx.items(cellIdentifier: HotelBookmarkTableViewCell.Key, cellType: HotelBookmarkTableViewCell.self)) { (row, bookmark, cell) in
-                switch bookmark {
-                case let bookmark as HotelBookmark:
-                    bookmark.bind(cell)
-                default: break
+        
+        // 정렬 버튼 bind
+        self.navigationItem.rightBarButtonItem?.rx.tap.bind { [unowned self] in
+            let alertController = UIAlertController(title: "정렬", message: nil, preferredStyle: .actionSheet)
+            
+            for sortType in BookmarkSortType.allCases {
+                var title = sortType.actionTitle
+                if sortType == self.viewModel.sortType.value {
+                    title += " *"
                 }
+                alertController.addAction(UIAlertAction(title: title, style: .default,
+                                                        handler: { [unowned self, sortType] _ in
+                    self.viewModel.sortType.accept(sortType)
+                }))
+            }
+            
+            alertController.addAction(UIAlertAction(title: "취소", style: .cancel))
+            
+            self.present(alertController, animated: true, completion: nil)
+        }.disposed(by: disposeBag)
+        
+        // TableView Cell Bind
+        viewModel.bookmarks.bind(to: tableView.rx.items){ (tableView, row, bookmark) -> UITableViewCell in
+            switch bookmark {
+            case let bookmark as HotelBookmark:
+                let cell = tableView.dequeueReusableCell(withIdentifier: HotelBookmarkTableViewCell.Key) as! HotelBookmarkTableViewCell
                 
                 cell.btnBookmark.rx.tap.subscribe({ _ in
                     try? BookmarkManager.shared.delete(bookmark.id)
                 }).disposed(by: cell.disposeBag)
                 
-            }.disposed(by: disposeBag)
+                bookmark.bind(cell)
+                return cell
+            default: return UITableViewCell()
+            }
+        }.disposed(by: disposeBag)
         
-        
+        // 리스트 선택 시 상세 화면 이동
         tableView.rx.modelSelected(Bookmark.self)
             .subscribe { bookmark in
                 switch bookmark.element {
@@ -56,32 +80,10 @@ final class BookmarkListViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    private func initializeSortButton() {
-        self.navigationItem.rightBarButtonItem?.rx.tap.bind { [unowned self] in
-            let alertController = UIAlertController(title: "정렬", message: nil, preferredStyle: .actionSheet)
-            alertController.addAction(UIAlertAction(title: "최근 등록 순 (오름차순)", style: .default, handler: { [unowned self] _ in
-                self.viewModel.sortByDate(true)
-            }))
-
-            alertController.addAction(UIAlertAction(title: "최근 등록 순 (내림차순)", style: .default, handler: { [unowned self] _ in
-                self.viewModel.sortByDate(false)
-            }))
-            
-            alertController.addAction(UIAlertAction(title: "평점 순 (오름차순)", style: .default, handler: { [unowned self] _ in
-                self.viewModel.sortByRate(true)
-            }))
-            
-            alertController.addAction(UIAlertAction(title: "평점 순 (내림차순)", style: .default, handler: { [unowned self] _ in
-                self.viewModel.sortByRate(false)
-            }))
-            
-            self.present(alertController, animated: true, completion: nil)
-        }.disposed(by: disposeBag)
-    }
-    
     private func initializeTableView() {
         tableView.rowHeight = 100
-        tableView.register(UINib(nibName: "HotelBookmarkTableViewCell", bundle: nil), forCellReuseIdentifier: HotelBookmarkTableViewCell.Key)
+        tableView.register(UINib(nibName: "HotelBookmarkTableViewCell", bundle: nil),
+                           forCellReuseIdentifier: HotelBookmarkTableViewCell.Key)
     }
 }
 
