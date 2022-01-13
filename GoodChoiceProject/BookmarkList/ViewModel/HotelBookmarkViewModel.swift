@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import Kingfisher
 
-struct HotelBookmarkViewModel: AccommodationBookmarkViewModel {
+struct HotelBookmarkViewModel: BookmarkViewModel {
     var bookmark: Bookmark
     var bookmarkButtonTap: PublishRelay<Void> = PublishRelay()
     
@@ -37,5 +37,9 @@ struct HotelBookmarkViewModel: AccommodationBookmarkViewModel {
         if let thumbnailImageUrl = bookmark.thumbnailImageUrl {
             cell.imgView.kf.setImage(with: thumbnailImageUrl)
         }
+        
+        cell.btnBookmark.rx.tap
+            .bind(to: bookmarkButtonTap)
+            .disposed(by: cell.disposeBag)
     }
 }

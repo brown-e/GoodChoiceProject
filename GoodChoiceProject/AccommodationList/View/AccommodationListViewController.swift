@@ -12,10 +12,12 @@ import Kingfisher
 
 final class AccommodationListViewController: UIViewController {
     
-    @IBOutlet var tableView: UITableView!
-    @IBOutlet var loadingView: UIActivityIndicatorView!
+    // View
+    @IBOutlet private var tableView: UITableView!
+    @IBOutlet private var loadingView: UIActivityIndicatorView!
     
-    private var viewModel: PropertyListViewModel = PropertyListViewModel()
+    // ViewModel
+    private var viewModel: AccommodationListViewModel = AccommodationListViewModel()
     
     private let disposeBag = DisposeBag()
     
@@ -27,19 +29,15 @@ final class AccommodationListViewController: UIViewController {
         bind()
         
         // 첫번째 페이지 API 호출
-        viewModel.fetchData(viewModel.currentPage ?? 1)
+        viewModel.fetchData()
     }
     
     private func bind() {
-
-        viewModel.propertyViewModels.bind(to: tableView.rx.items){ (tableView, row, accommodationViewModel) -> UITableViewCell in
+        viewModel.accommodationViewModels.bind(to: tableView.rx.items){ (tableView, row, accommodationViewModel) -> UITableViewCell in
             switch accommodationViewModel {
             case let hotelViewModel as HotelViewModel:
                 let cell = tableView.dequeueReusableCell(withIdentifier: HotelPropertyListTableViewCell.Key) as! HotelPropertyListTableViewCell
                 
-                cell.btnBookmark.rx.tap
-                    .bind(to: hotelViewModel.bookmarkButtonTap)
-                    .disposed(by: cell.disposeBag)
                 hotelViewModel.viewBind(cell)
                 
                 return cell
@@ -48,6 +46,13 @@ final class AccommodationListViewController: UIViewController {
         }.disposed(by: disposeBag)
         
         viewModel.isLoading.bind(to: loadingView.rx.isAnimating).disposed(by: disposeBag)
+        if let refreshControl = tableView.refreshControl {
+            viewModel.isLoading
+                .filter { $0 == false }
+                .filter { _ in refreshControl.isRefreshing == true }
+                .bind(to: refreshControl.rx.isRefreshing)
+                .disposed(by: disposeBag)
+        }
         
         tableView.rx.willDisplayCell.observe(on: MainScheduler.instance).bind {
             guard let current = self.viewModel.currentPage else { return }
@@ -56,6 +61,7 @@ final class AccommodationListViewController: UIViewController {
                 self.viewModel.fetchData(current+1)
             }
         }.disposed(by: disposeBag)
+        
         
         tableView.rx.didEndDragging.filter({ $0 == true }).bind { [unowned self] _ in
             guard self.tableView.contentOffset.y > self.tableView.contentSize.height - self.tableView.frame.height else { return }
@@ -78,5 +84,9 @@ final class AccommodationListViewController: UIViewController {
         tableView.rowHeight = 100
         tableView.register(UINib(nibName: "HotelPropertyListTableViewCell", bundle: nil),
                            forCellReuseIdentifier: HotelPropertyListTableViewCell.Key)
+        tableView.refreshControl = UIRefreshControl()
+        tableView.refreshControl?.rx.controlEvent(.valueChanged)
+            .bind(to: viewModel.refreshControlCalled)
+            .disposed(by: disposeBag)
     }
 }

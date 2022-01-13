@@ -24,7 +24,8 @@ final class HotelPropertyListTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        imgView.layer.borderColor = UIColor.gray.cgColor
+        imgView.layer.borderColor = UIColor(white: 0, alpha: 0.1).cgColor
+        imgView.layer.cornerRadius = 5
         imgView.layer.borderWidth = 1
     }
 

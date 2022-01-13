@@ -14,8 +14,8 @@ enum BookmarkSortType: CaseIterable {
 }
 
 final class BookmarkListViewModel {
-    
-    var bookmarkViewModels: BehaviorRelay<[AccommodationBookmarkViewModel]> = BehaviorRelay(value: [])
+
+    var bookmarkViewModels: BehaviorRelay<[BookmarkViewModel]> = BehaviorRelay(value: [])
     
     var sortType: BehaviorRelay<BookmarkSortType> = BehaviorRelay(value: .dateAscending)
     

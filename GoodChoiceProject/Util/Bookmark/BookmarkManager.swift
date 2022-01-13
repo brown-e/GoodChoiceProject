@@ -16,8 +16,7 @@ final class BookmarkManager {
     // Model
     var bookmarks: BehaviorSubject<[Bookmark]>
     
-    var realm = try! Realm(configuration: .defaultConfiguration)
-    
+    private var realm = try! Realm(configuration: .defaultConfiguration)
     private let notificationToken: NotificationToken
 
     private init() {
@@ -75,7 +74,7 @@ class BookmarkObject: Object {
     
     @Persisted var price: Int = 0
     
-    @Persisted var date: Date?
+    @Persisted var date: Date
     
     override init() {
         super.init()
@@ -108,15 +107,14 @@ extension BookmarkObject {
         
         switch propertyType {
         case .hotel:
-            return HotelBookmark(type: .hotel,
+            return HotelBookmark(id: id,
+                                 title: title,
                                  imageUrl: URL(string: imageUrlString),
+                                 thumbnailImageUrl: URL(string: thumbnailImageUrlString),
+                                 rate: rate,
                                  subject: subject,
                                  price: price,
-                                 thumbnailImageUrl: URL(string: thumbnailImageUrlString),
-                                 id: id,
-                                 title: title,
-                                 rate: rate,
-                                 date: date ?? Date())
+                                 date: date)
         default: return nil
         }
     }

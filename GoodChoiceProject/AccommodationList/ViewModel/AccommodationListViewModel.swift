@@ -1,5 +1,5 @@
 //
-//  PropertyListViewModel.swift
+//  AccommodationListViewModel.swift
 //  GoodChoiceProject
 //
 //  Created by 김이은 on 2022/01/08.
@@ -10,14 +10,15 @@ import RxSwift
 import RxCocoa
 import Alamofire
 
-final class PropertyListViewModel {
+final class AccommodationListViewModel {
     
-    var propertyViewModels: BehaviorRelay<[AccomodationViewModel]> = BehaviorRelay(value: [])
+    var accommodationViewModels: BehaviorRelay<[AccomodationViewModel]> = BehaviorRelay(value: [])
     var isLoading: BehaviorRelay<Bool> = BehaviorRelay(value: false)
+    var refreshControlCalled: PublishRelay<Void> = PublishRelay()
     
     var totalCount: Int?
     var currentPage: Int? {
-        let count = propertyViewModels.value.count
+        let count = accommodationViewModels.value.count
         if count == 0 { return nil }
         return count / 20
     }
@@ -30,7 +31,8 @@ final class PropertyListViewModel {
     
     private func bind() {
         BookmarkManager.shared.bookmarks.bind { [unowned self] bookmarks in
-            self.propertyViewModels.accept(self.propertyViewModels.value.compactMap({ property in
+            let oldList = self.accommodationViewModels.value
+            self.accommodationViewModels.accept(oldList.compactMap({ property in
                 let bookmarked = bookmarks.contains(where: { $0.id == property.accommodation.id })
                 
                 switch property {
@@ -41,12 +43,23 @@ final class PropertyListViewModel {
                 }
             }))
         }.disposed(by: disposeBag)
+        
+        refreshControlCalled.bind { [unowned self] _ in
+            fetchData()
+        }.disposed(by: disposeBag)
     }
     
-    func fetchData(_ page: Int) {
+    func fetchData(_ page: Int = 1) {
         guard isLoading.value == false else { return }
         
-        if let totalCount = totalCount, totalCount <= self.propertyViewModels.value.count {
+        var oldList = self.accommodationViewModels.value
+        
+        if page == 1 {
+            totalCount = nil
+            oldList = []
+        }
+        
+        if let totalCount = totalCount, totalCount <= oldList.count {
             return
         }
         
@@ -57,17 +70,18 @@ final class PropertyListViewModel {
             .responseDecodable(of: PropertyListAPIReturn.self) { [weak self] response in
                 self?.isLoading.accept(false)
                 
-                guard let list = response.value?.data.product else { return }
+                guard let newList = response.value?.data.product.compactMap({ $0.accommodation }) else { return }
                 self?.totalCount = response.value?.data.totalCount
                 
                 let bookmarks = (try? BookmarkManager.shared.bookmarks.value()) ?? []
-                self?.propertyViewModels.accept((self?.propertyViewModels.value ?? []) + list
+                let oldList = oldList
+                self?.accommodationViewModels.accept(oldList + newList
                                                     .map { property in
                     let bookmarked = bookmarks.contains(where: { bookmark in
                         bookmark.id == property.id
                     })
                     
-                    return HotelViewModel(accommodation: property.accommodation!,
+                    return HotelViewModel(accommodation: property,
                                           isBookmarked: bookmarked)
                 })
             }

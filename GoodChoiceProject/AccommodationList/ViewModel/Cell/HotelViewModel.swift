@@ -39,5 +39,9 @@ struct HotelViewModel: AccomodationViewModel {
         if let thumbnailImageUrl = accommodation.thumbnailImageUrl {
             cell.imgView.kf.setImage(with: thumbnailImageUrl)
         }
+        
+        cell.btnBookmark.rx.tap
+            .bind(to: bookmarkButtonTap)
+            .disposed(by: cell.disposeBag)
     }
 }

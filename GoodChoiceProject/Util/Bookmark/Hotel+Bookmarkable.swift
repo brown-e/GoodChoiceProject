@@ -9,13 +9,13 @@ import Foundation
 
 extension Hotel: Bookmarkable {
     var bookmark: Bookmark {
-        return HotelBookmark(imageUrl: imageUrl,
+        return HotelBookmark(id: id,
+                             title: title,
+                             imageUrl: imageUrl,
+                             thumbnailImageUrl: thumbnailImageUrl,
+                             rate: rate,
                              subject: subject,
                              price: price,
-                             thumbnailImageUrl: thumbnailImageUrl,
-                             id: id,
-                             title: title,
-                             rate: rate,
                              date: Date())
     }
     

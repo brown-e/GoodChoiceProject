@@ -51,7 +51,6 @@ final class HotelDetailViewController: UIViewController {
     }
     
     private func bind() {
-        
         btnBookmark.rx.tap
             .bind(to: hotelDetailViewModel.bookmarkButtonTap)
             .disposed(by: disposeBag)

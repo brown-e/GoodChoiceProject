@@ -55,9 +55,6 @@ final class BookmarkListViewController: UIViewController {
             switch bookmarkViewModel {
             case let hotelBookmark as HotelBookmarkViewModel:
                 let cell = tableView.dequeueReusableCell(withIdentifier: HotelBookmarkTableViewCell.Key) as! HotelBookmarkTableViewCell
-                cell.btnBookmark.rx.tap
-                    .bind(to: hotelBookmark.bookmarkButtonTap)
-                    .disposed(by: cell.disposeBag)
                 hotelBookmark.viewBind(cell)
                 return cell
             default: return UITableViewCell()
@@ -65,7 +62,7 @@ final class BookmarkListViewController: UIViewController {
         }.disposed(by: disposeBag)
         
         // 리스트 선택 시 상세 화면 이동
-        tableView.rx.modelSelected(AccommodationBookmarkViewModel.self)
+        tableView.rx.modelSelected(BookmarkViewModel.self)
             .bind { viewModel in
                 switch viewModel.bookmark {
                 case let hotelBookmark as HotelBookmark:

@@ -8,21 +8,21 @@
 import Foundation
 
 struct HotelBookmark: Bookmark {
-    var type: PropertyType = .hotel
-    
-    var imageUrl: URL?
-    
-    var subject: String
-    
-    var price: Int
-    
-    var thumbnailImageUrl: URL?
+    var type: PropertyType { .hotel }
     
     var id: Int = 0
     
     var title: String = ""
     
+    var imageUrl: URL?
+    
+    var thumbnailImageUrl: URL?
+    
     var rate: Float = 0
+    
+    var subject: String
+    
+    var price: Int
     
     var date: Date
 }

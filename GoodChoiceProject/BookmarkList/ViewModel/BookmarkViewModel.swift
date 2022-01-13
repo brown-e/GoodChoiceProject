@@ -7,8 +7,7 @@
 
 import Foundation
 
-protocol AccommodationBookmarkViewModel {
+protocol BookmarkViewModel {
     var bookmark: Bookmark { get set }
-    
 }
 
