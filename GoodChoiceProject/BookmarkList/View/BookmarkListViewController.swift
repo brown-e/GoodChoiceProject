@@ -24,6 +24,7 @@ final class BookmarkListViewController: UIViewController {
         super.viewDidLoad()
         
         initializeTableView()
+        
         bind()
     }
     
@@ -50,25 +51,23 @@ final class BookmarkListViewController: UIViewController {
         }.disposed(by: disposeBag)
         
         // TableView Cell Bind
-        viewModel.bookmarks.bind(to: tableView.rx.items){ (tableView, row, bookmark) -> UITableViewCell in
-            switch bookmark {
-            case let bookmark as HotelBookmark:
+        viewModel.bookmarkViewModels.bind(to: tableView.rx.items){ (tableView, row, bookmarkViewModel) -> UITableViewCell in
+            switch bookmarkViewModel {
+            case let hotelBookmark as HotelBookmarkViewModel:
                 let cell = tableView.dequeueReusableCell(withIdentifier: HotelBookmarkTableViewCell.Key) as! HotelBookmarkTableViewCell
-                
-                cell.btnBookmark.rx.tap.subscribe({ _ in
-                    try? BookmarkManager.shared.delete(bookmark.id)
-                }).disposed(by: cell.disposeBag)
-                
-                bookmark.bind(cell)
+                cell.btnBookmark.rx.tap
+                    .bind(to: hotelBookmark.bookmarkButtonTap)
+                    .disposed(by: cell.disposeBag)
+                hotelBookmark.viewBind(cell)
                 return cell
             default: return UITableViewCell()
             }
         }.disposed(by: disposeBag)
         
         // 리스트 선택 시 상세 화면 이동
-        tableView.rx.modelSelected(Bookmark.self)
-            .subscribe { bookmark in
-                switch bookmark.element {
+        tableView.rx.modelSelected(AccommodationBookmarkViewModel.self)
+            .bind { viewModel in
+                switch viewModel.bookmark {
                 case let hotelBookmark as HotelBookmark:
                     guard let hotel = Hotel(hotelBookmark) else { return }
 
@@ -84,22 +83,5 @@ final class BookmarkListViewController: UIViewController {
         tableView.rowHeight = 100
         tableView.register(UINib(nibName: "HotelBookmarkTableViewCell", bundle: nil),
                            forCellReuseIdentifier: HotelBookmarkTableViewCell.Key)
-    }
-}
-
-extension HotelBookmark {
-    func bind(_ cell: HotelBookmarkTableViewCell) {
-        cell.lblTitle.text = title
-        cell.lblRate.text = "\(rate)"
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd hh:mm:ss"
-        
-        cell.lblRateDate.text = dateFormatter.string(from: date)
-        
-        cell.imgView.image = nil
-        if let thumbnailImageUrl = thumbnailImageUrl {
-            cell.imgView.kf.setImage(with: thumbnailImageUrl)
-        }
     }
 }

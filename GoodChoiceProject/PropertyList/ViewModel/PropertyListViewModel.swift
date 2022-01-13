@@ -12,12 +12,12 @@ import Alamofire
 
 final class PropertyListViewModel {
     
-    var properties: BehaviorRelay<[PropertyViewModel]> = BehaviorRelay(value: [])
+    var propertyViewModels: BehaviorRelay<[AccomodationViewModel]> = BehaviorRelay(value: [])
     var isLoading: BehaviorRelay<Bool> = BehaviorRelay(value: false)
     
     var totalCount: Int?
     var currentPage: Int? {
-        let count = properties.value.count
+        let count = propertyViewModels.value.count
         if count == 0 { return nil }
         return count / 20
     }
@@ -30,9 +30,15 @@ final class PropertyListViewModel {
     
     private func bind() {
         BookmarkManager.shared.bookmarks.bind { [unowned self] bookmarks in
-            self.properties.accept(self.properties.value.map({ property in
-                let bookmarked = bookmarks.contains(where: { $0.id == property.property.id })
-                return PropertyViewModel(property: property.property, isBookmarked: bookmarked)
+            self.propertyViewModels.accept(self.propertyViewModels.value.compactMap({ property in
+                let bookmarked = bookmarks.contains(where: { $0.id == property.accommodation.id })
+                
+                switch property {
+                case let hotelViewModel as HotelViewModel:
+                    return HotelViewModel(accommodation: hotelViewModel.accommodation,
+                                          isBookmarked: bookmarked)
+                default: return nil
+                }
             }))
         }.disposed(by: disposeBag)
     }
@@ -40,7 +46,7 @@ final class PropertyListViewModel {
     func fetchData(_ page: Int) {
         guard isLoading.value == false else { return }
         
-        if let totalCount = totalCount, totalCount <= self.properties.value.count {
+        if let totalCount = totalCount, totalCount <= self.propertyViewModels.value.count {
             return
         }
         
@@ -53,15 +59,17 @@ final class PropertyListViewModel {
                 
                 guard let list = response.value?.data.product else { return }
                 self?.totalCount = response.value?.data.totalCount
-
+                
                 let bookmarks = (try? BookmarkManager.shared.bookmarks.value()) ?? []
-                self?.properties.accept((self?.properties.value ?? []) + list
-                                            .map { property in
+                self?.propertyViewModels.accept((self?.propertyViewModels.value ?? []) + list
+                                                    .map { property in
                     let bookmarked = bookmarks.contains(where: { bookmark in
                         bookmark.id == property.id
                     })
-                    return PropertyViewModel(property: Hotel(property),
-                                             isBookmarked: bookmarked) })
+                    
+                    return HotelViewModel(accommodation: property.accommodation!,
+                                          isBookmarked: bookmarked)
+                })
             }
     }
 }
@@ -91,14 +99,14 @@ fileprivate struct PropertyListAPIReturn: Decodable {
     var data: Data
 }
 
-extension Hotel {
-    fileprivate init(_ apiReturn: PropertyListAPIReturn.Property) {
-        id = apiReturn.id
-        title = apiReturn.name
-        rate = apiReturn.rate
-        thumbnailImageUrl = URL(string: apiReturn.thumbnail)
-        imageUrl = URL(string: apiReturn.description.imagePath)
-        subject = apiReturn.description.subject
-        price = apiReturn.description.price
+extension PropertyListAPIReturn.Property {
+    var accommodation: Accommodation? {
+        return Hotel(id: id,
+                     title: name,
+                     thumbnailImageUrl: URL(string: thumbnail),
+                     rate: rate,
+                     imageUrl: URL(string: description.imagePath),
+                     subject: description.subject,
+                     price: description.price)
     }
 }

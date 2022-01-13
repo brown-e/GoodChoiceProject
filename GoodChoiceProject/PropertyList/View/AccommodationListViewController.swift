@@ -32,26 +32,19 @@ final class AccommodationListViewController: UIViewController {
     
     private func bind() {
 
-        viewModel.properties.bind(to: tableView.rx.items(cellIdentifier: HotelPropertyListTableViewCell.Key,
-                                                         cellType: HotelPropertyListTableViewCell.self)) { (row, property, cell) in
-            switch property.property {
-            case let hotel as Hotel:
-                hotel.bind(cell)
-            default: break
+        viewModel.propertyViewModels.bind(to: tableView.rx.items){ (tableView, row, accommodationViewModel) -> UITableViewCell in
+            switch accommodationViewModel {
+            case let hotelViewModel as HotelViewModel:
+                let cell = tableView.dequeueReusableCell(withIdentifier: HotelPropertyListTableViewCell.Key) as! HotelPropertyListTableViewCell
+                
+                cell.btnBookmark.rx.tap
+                    .bind(to: hotelViewModel.bookmarkButtonTap)
+                    .disposed(by: cell.disposeBag)
+                hotelViewModel.viewBind(cell)
+                
+                return cell
+            default: return UITableViewCell()
             }
-            
-            if let bookmark = property.property as? Bookmarkable {
-                cell.btnBookmark.rx.tap.bind {
-                    if property.isBookmarked {
-                        try? BookmarkManager.shared.delete(bookmark.bookmark.id)
-                    } else {
-                        try? BookmarkManager.shared.save(bookmark.bookmark)
-                    }
-                }.disposed(by: cell.disposeBag)
-            }
-            
-            cell.btnBookmark.isSelected = property.isBookmarked
-            
         }.disposed(by: disposeBag)
         
         viewModel.isLoading.bind(to: loadingView.rx.isAnimating).disposed(by: disposeBag)
@@ -71,8 +64,8 @@ final class AccommodationListViewController: UIViewController {
             self.viewModel.fetchData(current+1)
         }.disposed(by: disposeBag)
         
-        tableView.rx.modelSelected(PropertyViewModel.self).bind {
-            switch $0.property {
+        tableView.rx.modelSelected(AccomodationViewModel.self).bind {
+            switch $0.accommodation {
             case let hotel as Hotel:
                 let viewController = HotelDetailViewController(hotel)
                 self.navigationController?.pushViewController(viewController, animated: true)
@@ -85,17 +78,5 @@ final class AccommodationListViewController: UIViewController {
         tableView.rowHeight = 100
         tableView.register(UINib(nibName: "HotelPropertyListTableViewCell", bundle: nil),
                            forCellReuseIdentifier: HotelPropertyListTableViewCell.Key)
-    }
-}
-
-extension Hotel {
-    func bind(_ cell: HotelPropertyListTableViewCell) {
-        cell.lblTitle.text = title
-        cell.lblRate.text = "\(rate)"
-        
-        cell.imgView.image = nil
-        if let thumbnailImageUrl = thumbnailImageUrl {
-            cell.imgView.kf.setImage(with: thumbnailImageUrl)
-        }
     }
 }

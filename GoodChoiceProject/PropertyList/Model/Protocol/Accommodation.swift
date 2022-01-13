@@ -11,7 +11,7 @@ enum PropertyType: Int {
     case hotel, motel
 }
 
-protocol Accommodation {
+protocol Accommodation: Bookmarkable {
     var id: Int { get set }
     
     var title: String { get set }
