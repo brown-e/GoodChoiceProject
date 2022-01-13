@@ -64,8 +64,6 @@ final class AccommodationListViewModel {
         }
         
         isLoading.accept(true)
-        print("requested" + "https://www.gccompany.co.kr/App/json/\(page).json")
-        
         AF.request(URL(string: "https://www.gccompany.co.kr/App/json/\(page).json")!)
             .responseDecodable(of: PropertyListAPIReturn.self) { [weak self] response in
                 self?.isLoading.accept(false)
@@ -114,13 +112,24 @@ fileprivate struct PropertyListAPIReturn: Decodable {
 }
 
 extension PropertyListAPIReturn.Property {
+    
     var accommodation: Accommodation? {
-        return Hotel(id: id,
-                     title: name,
-                     thumbnailImageUrl: URL(string: thumbnail),
-                     rate: rate,
-                     imageUrl: URL(string: description.imagePath),
-                     subject: description.subject,
-                     price: description.price)
+        
+        /*
+         API 결과값이 Hotel 타입만 내려온다고 가정함
+         */
+        let accommodationType = AccommodationType.hotel
+        
+        switch accommodationType {
+        case .hotel:
+            return Hotel(id: id,
+                         title: name,
+                         thumbnailImageUrl: URL(string: thumbnail),
+                         rate: rate,
+                         imageUrl: URL(string: description.imagePath),
+                         subject: description.subject,
+                         price: description.price)
+        default: return nil
+        }
     }
 }

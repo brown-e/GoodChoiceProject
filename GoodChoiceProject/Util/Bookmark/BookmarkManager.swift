@@ -103,19 +103,16 @@ class BookmarkObject: Object {
 
 extension BookmarkObject {
     fileprivate var bookmark: Bookmark? {
-        guard let propertyType = PropertyType(rawValue: type) else { return nil }
+        guard let propertyType = AccommodationType(rawValue: type) else { return nil }
         
-        switch propertyType {
-        case .hotel:
-            return HotelBookmark(id: id,
-                                 title: title,
-                                 imageUrl: URL(string: imageUrlString),
-                                 thumbnailImageUrl: URL(string: thumbnailImageUrlString),
-                                 rate: rate,
-                                 subject: subject,
-                                 price: price,
-                                 date: date)
-        default: return nil
-        }
+        return Bookmark(type: propertyType,
+                        id: id,
+                        title: title,
+                        thumbnailImageUrl: URL(string: thumbnailImageUrlString),
+                        rate: rate,
+                        imageUrl: URL(string: imageUrlString),
+                        subject: subject,
+                        price: price,
+                        date: date)
     }
 }

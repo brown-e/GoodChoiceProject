@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum PropertyType: Int {
+enum AccommodationType: Int {
     case hotel, motel
 }
 

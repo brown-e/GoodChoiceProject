@@ -27,7 +27,6 @@
 		5E29A038278BB10B0063021A /* HotelPropertyListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E29A023278BB10B0063021A /* HotelPropertyListTableViewCell.swift */; };
 		5E29A039278BB10B0063021A /* HotelPropertyListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5E29A024278BB10B0063021A /* HotelPropertyListTableViewCell.xib */; };
 		5E29A03B278BB10B0063021A /* BookmarkListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E29A028278BB10B0063021A /* BookmarkListViewModel.swift */; };
-		5E29A03C278BB10B0063021A /* HotelBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E29A02A278BB10B0063021A /* HotelBookmark.swift */; };
 		5E29A03D278BB10B0063021A /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E29A02B278BB10B0063021A /* Bookmark.swift */; };
 		5E29A03E278BB10B0063021A /* HotelBookmarkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E29A02D278BB10B0063021A /* HotelBookmarkTableViewCell.swift */; };
 		5E29A03F278BB10B0063021A /* BookmarkListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E29A02E278BB10B0063021A /* BookmarkListViewController.swift */; };
@@ -86,7 +85,6 @@
 		5E29A023278BB10B0063021A /* HotelPropertyListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotelPropertyListTableViewCell.swift; sourceTree = "<group>"; };
 		5E29A024278BB10B0063021A /* HotelPropertyListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HotelPropertyListTableViewCell.xib; sourceTree = "<group>"; };
 		5E29A028278BB10B0063021A /* BookmarkListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkListViewModel.swift; sourceTree = "<group>"; };
-		5E29A02A278BB10B0063021A /* HotelBookmark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotelBookmark.swift; sourceTree = "<group>"; };
 		5E29A02B278BB10B0063021A /* Bookmark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bookmark.swift; sourceTree = "<group>"; };
 		5E29A02D278BB10B0063021A /* HotelBookmarkTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotelBookmarkTableViewCell.swift; sourceTree = "<group>"; };
 		5E29A02E278BB10B0063021A /* BookmarkListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkListViewController.swift; sourceTree = "<group>"; };
@@ -173,7 +171,7 @@
 			children = (
 				5E29A01B278BB10B0063021A /* AccommodationList */,
 				5E29A026278BB10B0063021A /* BookmarkList */,
-				5E29A015278BB10B0063021A /* PropertyDetail */,
+				5E29A015278BB10B0063021A /* AccommodationDetail */,
 				5E29A010278BB10B0063021A /* Util */,
 				5E299FE0278BAE760063021A /* AppDelegate.swift */,
 				5E299FE2278BAE760063021A /* SceneDelegate.swift */,
@@ -205,7 +203,7 @@
 		5E29A010278BB10B0063021A /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				5E89FF51278D6B1000E02D4E /* URL+Util.swift */,
+				5E98844C27901BB3003C2096 /* Swift+Extensions */,
 				5E29A011278BB10B0063021A /* Bookmark */,
 			);
 			path = Util;
@@ -221,12 +219,12 @@
 			path = Bookmark;
 			sourceTree = "<group>";
 		};
-		5E29A015278BB10B0063021A /* PropertyDetail */ = {
+		5E29A015278BB10B0063021A /* AccommodationDetail */ = {
 			isa = PBXGroup;
 			children = (
 				5E29A018278BB10B0063021A /* View */,
 			);
-			path = PropertyDetail;
+			path = AccommodationDetail;
 			sourceTree = "<group>";
 		};
 		5E29A018278BB10B0063021A /* View */ = {
@@ -244,6 +242,7 @@
 				5E29A01E278BB10B0063021A /* Model */,
 				5E29A021278BB10B0063021A /* View */,
 				5E29A01C278BB10B0063021A /* ViewModel */,
+				5E988448279019C7003C2096 /* SupportFiles */,
 			);
 			path = AccommodationList;
 			sourceTree = "<group>";
@@ -251,7 +250,6 @@
 		5E29A01C278BB10B0063021A /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				5E988442278FD300003C2096 /* Cell */,
 				5E29A01D278BB10B0063021A /* AccommodationListViewModel.swift */,
 			);
 			path = ViewModel;
@@ -260,7 +258,7 @@
 		5E29A01E278BB10B0063021A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				5E89FF46278D43B900E02D4E /* Protocol */,
+				5E29A01F278BB10B0063021A /* Accommodation.swift */,
 				5E29A020278BB10B0063021A /* Hotel.swift */,
 			);
 			path = Model;
@@ -270,7 +268,6 @@
 			isa = PBXGroup;
 			children = (
 				5E29A022278BB10B0063021A /* AccommodationListViewController.swift */,
-				5E89FF49278D43F500E02D4E /* Cell */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -278,9 +275,10 @@
 		5E29A026278BB10B0063021A /* BookmarkList */ = {
 			isa = PBXGroup;
 			children = (
-				5E29A027278BB10B0063021A /* ViewModel */,
 				5E29A029278BB10B0063021A /* Model */,
 				5E29A02C278BB10B0063021A /* View */,
+				5E29A027278BB10B0063021A /* ViewModel */,
+				5E98844B27901B62003C2096 /* SupportFiles */,
 			);
 			path = BookmarkList;
 			sourceTree = "<group>";
@@ -288,8 +286,6 @@
 		5E29A027278BB10B0063021A /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				5E98843C278FA491003C2096 /* BookmarkViewModel.swift */,
-				5E98843D278FA491003C2096 /* HotelBookmarkViewModel.swift */,
 				5E29A028278BB10B0063021A /* BookmarkListViewModel.swift */,
 			);
 			path = ViewModel;
@@ -298,7 +294,6 @@
 		5E29A029278BB10B0063021A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				5E29A02A278BB10B0063021A /* HotelBookmark.swift */,
 				5E29A02B278BB10B0063021A /* Bookmark.swift */,
 			);
 			path = Model;
@@ -308,17 +303,8 @@
 			isa = PBXGroup;
 			children = (
 				5E29A02E278BB10B0063021A /* BookmarkListViewController.swift */,
-				5E89FF48278D43E600E02D4E /* Cell */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		5E89FF46278D43B900E02D4E /* Protocol */ = {
-			isa = PBXGroup;
-			children = (
-				5E29A01F278BB10B0063021A /* Accommodation.swift */,
-			);
-			path = Protocol;
 			sourceTree = "<group>";
 		};
 		5E89FF47278D43C800E02D4E /* Protocol */ = {
@@ -338,22 +324,49 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
-		5E89FF49278D43F500E02D4E /* Cell */ = {
+		5E988448279019C7003C2096 /* SupportFiles */ = {
 			isa = PBXGroup;
 			children = (
+				5E98844927901AD2003C2096 /* Cell */,
+			);
+			path = SupportFiles;
+			sourceTree = "<group>";
+		};
+		5E98844927901AD2003C2096 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				5E98844A27901B03003C2096 /* ViewModel */,
 				5E29A023278BB10B0063021A /* HotelPropertyListTableViewCell.swift */,
 				5E29A024278BB10B0063021A /* HotelPropertyListTableViewCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
 		};
-		5E988442278FD300003C2096 /* Cell */ = {
+		5E98844A27901B03003C2096 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
 				5E988439278FA417003C2096 /* AccommodationViewModel.swift */,
 				5E988438278FA417003C2096 /* HotelViewModel.swift */,
 			);
-			path = Cell;
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		5E98844B27901B62003C2096 /* SupportFiles */ = {
+			isa = PBXGroup;
+			children = (
+				5E89FF48278D43E600E02D4E /* Cell */,
+				5E98843C278FA491003C2096 /* BookmarkViewModel.swift */,
+				5E98843D278FA491003C2096 /* HotelBookmarkViewModel.swift */,
+			);
+			path = SupportFiles;
+			sourceTree = "<group>";
+		};
+		5E98844C27901BB3003C2096 /* Swift+Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5E89FF51278D6B1000E02D4E /* URL+Util.swift */,
+			);
+			path = "Swift+Extensions";
 			sourceTree = "<group>";
 		};
 		DA88E8DD6FC767C1689A49A1 /* Frameworks */ = {
@@ -632,7 +645,6 @@
 				5E98843E278FA491003C2096 /* BookmarkViewModel.swift in Sources */,
 				5E89FF50278D6A9300E02D4E /* Hotel+Bookmarkable.swift in Sources */,
 				5E299FE1278BAE760063021A /* AppDelegate.swift in Sources */,
-				5E29A03C278BB10B0063021A /* HotelBookmark.swift in Sources */,
 				5E29A03D278BB10B0063021A /* Bookmark.swift in Sources */,
 				5E29A036278BB10B0063021A /* Hotel.swift in Sources */,
 				5E98843B278FA417003C2096 /* AccommodationViewModel.swift in Sources */,

@@ -64,11 +64,9 @@ final class BookmarkListViewController: UIViewController {
         // 리스트 선택 시 상세 화면 이동
         tableView.rx.modelSelected(BookmarkViewModel.self)
             .bind { viewModel in
-                switch viewModel.bookmark {
-                case let hotelBookmark as HotelBookmark:
-                    guard let hotel = Hotel(hotelBookmark) else { return }
-
-                    let propertyDetailView  = HotelDetailViewController(hotel)
+                switch viewModel.bookmark.type {
+                case .hotel:
+                    let propertyDetailView  = HotelDetailViewController(Hotel(viewModel.bookmark))
                     self.navigationController?.pushViewController(propertyDetailView, animated: true)
                 default: break
                 }

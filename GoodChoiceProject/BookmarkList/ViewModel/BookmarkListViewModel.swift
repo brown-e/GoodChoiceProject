@@ -33,9 +33,9 @@ final class BookmarkListViewModel {
                 return $0.sorted(by: self.sortType.value.comparer)
             })
             .map({ $0.compactMap { bookmark in
-                switch bookmark {
-                case let hotelBookmark as HotelBookmark:
-                    return HotelBookmarkViewModel(bookmark: hotelBookmark)
+                switch bookmark.type {
+                case .hotel:
+                    return HotelBookmarkViewModel(bookmark: bookmark)
                 default: return nil
                 }
             }})

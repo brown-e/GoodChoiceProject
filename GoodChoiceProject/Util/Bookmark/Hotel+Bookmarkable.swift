@@ -9,24 +9,23 @@ import Foundation
 
 extension Hotel: Bookmarkable {
     var bookmark: Bookmark {
-        return HotelBookmark(id: id,
-                             title: title,
-                             imageUrl: imageUrl,
-                             thumbnailImageUrl: thumbnailImageUrl,
-                             rate: rate,
-                             subject: subject,
-                             price: price,
-                             date: Date())
+        return Bookmark(type: .hotel,
+                        id: id,
+                        title: title,
+                        thumbnailImageUrl: thumbnailImageUrl,
+                        rate: rate,
+                        imageUrl: imageUrl,
+                        subject: subject,
+                        price: price,
+                        date: Date())
     }
     
-    init?(_ bookmark: Bookmark) {
-        guard let bookmark = bookmark as? HotelBookmark else { return nil }
-        
+    init(_ bookmark: Bookmark) {
+        id = bookmark.id
         imageUrl = bookmark.imageUrl
         subject = bookmark.subject
         price = bookmark.price
         thumbnailImageUrl = bookmark.thumbnailImageUrl
-        id = bookmark.id
         title = bookmark.title
         rate = bookmark.rate
     }

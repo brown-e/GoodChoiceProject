@@ -7,22 +7,22 @@
 
 import Foundation
 
-protocol Bookmark {
-    var type: PropertyType { get }
+struct Bookmark {
+    var type: AccommodationType
     
-    var id: Int { get set }
+    var id: Int
     
-    var title: String { get set }
+    var title: String
     
-    var thumbnailImageUrl: URL? { get set }
+    var thumbnailImageUrl: URL?
     
-    var rate: Float { get set }
+    var rate: Float
     
-    var imageUrl: URL? { get set }
+    var imageUrl: URL?
     
-    var subject: String { get set }
+    var subject: String
     
-    var price: Int { get set }
+    var price: Int
     
-    var date: Date { get set }
+    var date: Date
 }
