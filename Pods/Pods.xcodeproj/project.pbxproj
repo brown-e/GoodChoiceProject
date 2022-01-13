@@ -1338,7 +1338,7 @@
 		91A7DC8D4898CAA97FC76F7BBC339FD2 /* RLMCredentials.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = RLMCredentials.mm; path = Realm/RLMCredentials.mm; sourceTree = "<group>"; };
 		91C67A609232084CC0C7C90C590E9E1A /* PriorityQueue.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PriorityQueue.swift; path = Platform/DataStructures/PriorityQueue.swift; sourceTree = "<group>"; };
 		920641F3AC3C788FE73B724472057DC5 /* Errors.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Errors.swift; path = RxSwift/Errors.swift; sourceTree = "<group>"; };
-		921BE4A82C4A7A5C72A0C6F8B8FEF200 /* Realm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Realm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		921BE4A82C4A7A5C72A0C6F8B8FEF200 /* Realm */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Realm; path = Realm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		923310C9A00E2F917576A4E8783BAC32 /* Realm.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Realm.swift; path = RealmSwift/Realm.swift; sourceTree = "<group>"; };
 		92486BD6C96925F95B657029D5FCEA68 /* RLMDecimal128.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RLMDecimal128.h; path = include/RLMDecimal128.h; sourceTree = "<group>"; };
 		925FDF90B2B200F75CED407544B3DCFA /* RLMMongoCollection.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = RLMMongoCollection.h; path = include/RLMMongoCollection.h; sourceTree = "<group>"; };
@@ -1863,7 +1863,7 @@
 				6E2755F185460A30F1F07E8037FF84E3 /* Pods-GoodChoiceProject */,
 				6E0857309C8D0692A62F15E2CD56AAD6 /* Pods-GoodChoiceProject-GoodChoiceProjectUITests */,
 				2CF3939409E474B080BE29594251DBDF /* Pods-GoodChoiceProjectTests */,
-				921BE4A82C4A7A5C72A0C6F8B8FEF200 /* Realm.framework */,
+				921BE4A82C4A7A5C72A0C6F8B8FEF200 /* Realm */,
 				437919EE08EC6BFCCBAC3BD346309742 /* RealmSwift */,
 				25F63A531105CD4E1E4CCF5B918C5494 /* RxBlocking */,
 				BC432FD48A5932251F1CAFBC4BF74894 /* RxCocoa */,
@@ -2898,7 +2898,7 @@
 			);
 			name = Realm;
 			productName = Realm;
-			productReference = 921BE4A82C4A7A5C72A0C6F8B8FEF200 /* Realm.framework */;
+			productReference = 921BE4A82C4A7A5C72A0C6F8B8FEF200 /* Realm */;
 			productType = "com.apple.product-type.framework";
 		};
 		6F24FD7F5CB7E0E92FF025C05E8F0BC3 /* Pods-GoodChoiceProject */ = {
@@ -3085,6 +3085,7 @@
 		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1240;
 				LastUpgradeCheck = 1240;
 			};

@@ -13,7 +13,6 @@ import RealmSwift
 final class BookmarkManager {
     static var shared: BookmarkManager = BookmarkManager()
     
-    // Model
     var bookmarks: BehaviorSubject<[Bookmark]>
     
     private var realm = try! Realm(configuration: .defaultConfiguration)

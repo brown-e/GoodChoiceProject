@@ -31,6 +31,7 @@
 		5E29A03E278BB10B0063021A /* HotelBookmarkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E29A02D278BB10B0063021A /* HotelBookmarkTableViewCell.swift */; };
 		5E29A03F278BB10B0063021A /* BookmarkListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E29A02E278BB10B0063021A /* BookmarkListViewController.swift */; };
 		5E29A040278BB10B0063021A /* HotelBookmarkTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5E29A02F278BB10B0063021A /* HotelBookmarkTableViewCell.xib */; };
+		5E56FDC027906CC4004A0FC0 /* HotelDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E56FDBF27906CC4004A0FC0 /* HotelDetailViewModel.swift */; };
 		5E89FF50278D6A9300E02D4E /* Hotel+Bookmarkable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E89FF4F278D6A9300E02D4E /* Hotel+Bookmarkable.swift */; };
 		5E89FF52278D6B1000E02D4E /* URL+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E89FF51278D6B1000E02D4E /* URL+Util.swift */; };
 		5E98843A278FA417003C2096 /* HotelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E988438278FA417003C2096 /* HotelViewModel.swift */; };
@@ -89,6 +90,7 @@
 		5E29A02D278BB10B0063021A /* HotelBookmarkTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotelBookmarkTableViewCell.swift; sourceTree = "<group>"; };
 		5E29A02E278BB10B0063021A /* BookmarkListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookmarkListViewController.swift; sourceTree = "<group>"; };
 		5E29A02F278BB10B0063021A /* HotelBookmarkTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HotelBookmarkTableViewCell.xib; sourceTree = "<group>"; };
+		5E56FDBF27906CC4004A0FC0 /* HotelDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotelDetailViewModel.swift; sourceTree = "<group>"; };
 		5E89FF4F278D6A9300E02D4E /* Hotel+Bookmarkable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Hotel+Bookmarkable.swift"; sourceTree = "<group>"; };
 		5E89FF51278D6B1000E02D4E /* URL+Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Util.swift"; sourceTree = "<group>"; };
 		5E988438278FA417003C2096 /* HotelViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotelViewModel.swift; sourceTree = "<group>"; };
@@ -212,9 +214,9 @@
 		5E29A011278BB10B0063021A /* Bookmark */ = {
 			isa = PBXGroup;
 			children = (
-				5E89FF47278D43C800E02D4E /* Protocol */,
-				5E89FF4F278D6A9300E02D4E /* Hotel+Bookmarkable.swift */,
 				5E29A014278BB10B0063021A /* BookmarkManager.swift */,
+				5E56FDC227906DC0004A0FC0 /* Extensions */,
+				5E89FF47278D43C800E02D4E /* Protocol */,
 			);
 			path = Bookmark;
 			sourceTree = "<group>";
@@ -223,6 +225,7 @@
 			isa = PBXGroup;
 			children = (
 				5E29A018278BB10B0063021A /* View */,
+				5E56FDBD27906CA6004A0FC0 /* VIewModel */,
 			);
 			path = AccommodationDetail;
 			sourceTree = "<group>";
@@ -307,6 +310,31 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		5E56FDBD27906CA6004A0FC0 /* VIewModel */ = {
+			isa = PBXGroup;
+			children = (
+				5E56FDBF27906CC4004A0FC0 /* HotelDetailViewModel.swift */,
+			);
+			path = VIewModel;
+			sourceTree = "<group>";
+		};
+		5E56FDC127906D93004A0FC0 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				5E98843C278FA491003C2096 /* BookmarkViewModel.swift */,
+				5E98843D278FA491003C2096 /* HotelBookmarkViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		5E56FDC227906DC0004A0FC0 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5E89FF4F278D6A9300E02D4E /* Hotel+Bookmarkable.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		5E89FF47278D43C800E02D4E /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
@@ -327,6 +355,7 @@
 		5E988448279019C7003C2096 /* SupportFiles */ = {
 			isa = PBXGroup;
 			children = (
+				5E98844A27901B03003C2096 /* ViewModel */,
 				5E98844927901AD2003C2096 /* Cell */,
 			);
 			path = SupportFiles;
@@ -335,7 +364,6 @@
 		5E98844927901AD2003C2096 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				5E98844A27901B03003C2096 /* ViewModel */,
 				5E29A023278BB10B0063021A /* HotelPropertyListTableViewCell.swift */,
 				5E29A024278BB10B0063021A /* HotelPropertyListTableViewCell.xib */,
 			);
@@ -354,9 +382,8 @@
 		5E98844B27901B62003C2096 /* SupportFiles */ = {
 			isa = PBXGroup;
 			children = (
+				5E56FDC127906D93004A0FC0 /* ViewModel */,
 				5E89FF48278D43E600E02D4E /* Cell */,
-				5E98843C278FA491003C2096 /* BookmarkViewModel.swift */,
-				5E98843D278FA491003C2096 /* HotelBookmarkViewModel.swift */,
 			);
 			path = SupportFiles;
 			sourceTree = "<group>";
@@ -642,6 +669,7 @@
 				5E29A037278BB10B0063021A /* AccommodationListViewController.swift in Sources */,
 				5E29A032278BB10B0063021A /* HotelDetailViewController.swift in Sources */,
 				5E98843A278FA417003C2096 /* HotelViewModel.swift in Sources */,
+				5E56FDC027906CC4004A0FC0 /* HotelDetailViewModel.swift in Sources */,
 				5E98843E278FA491003C2096 /* BookmarkViewModel.swift in Sources */,
 				5E89FF50278D6A9300E02D4E /* Hotel+Bookmarkable.swift in Sources */,
 				5E299FE1278BAE760063021A /* AppDelegate.swift in Sources */,
